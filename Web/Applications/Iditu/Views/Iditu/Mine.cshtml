@@ -1,0 +1,27 @@
+﻿@model IUser
+@{
+    Layout = "app-list-2cols";
+    Html.IncludeCss("~/Applications/Iditu/Styles/app.css", ResourceRenderPriority.Last);
+}
+
+@section Aside{
+    <p>---这里是用户空间主侧边栏---</p>
+}
+
+<p>---这里是用户空间主内容区---</p>
+<h1>DisplayName1=@ViewData["DisplayName"]</h1>
+<h1>DisplayName2=@ViewBag.DisplayName</h1>
+<h1>DisplayName3=@Html.LabelFor(model => model.DisplayName)</h1>
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=4NuseHw2b3RgtQ4jR2Hg4DtE"></script>
+
+<div id="allmap" style="width:820px; height:600px; margin:0 auto; position: relative; float:left;border:1px solid #ccc;"></div>
+
+<script type="text/javascript">
+
+    // 百度地图API功能
+    var map = new BMap.Map("allmap");            // 创建Map实例
+    var point = new BMap.Point(116.404, 39.915); // 创建点坐标
+    map.centerAndZoom(point, 15);                // 初始化地图,设置中心点坐标和地图级别。
+    map.enableScrollWheelZoom();                 // 启用滚轮放大缩小
+
+</script>

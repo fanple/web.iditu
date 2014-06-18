@@ -1,0 +1,67 @@
+﻿@{
+    string textareaId = ViewData.Get<String>("textareaId", string.Empty);
+    string seletorId = ViewData.Get<String>("seletorId", string.Empty);
+
+    int randomNum = new Random().Next(100000, 999999); 
+}
+@if (ViewData["data"] != null)
+{
+    var data = ViewData["data"].ToString();
+    <script type="text/javascript">
+        $(function () {
+
+            $.atUserNameArray = [];
+            var data=@Html.Raw(ViewData["data"].ToString())
+        
+            $.each(data, function (i, value) {
+                if (value.nickName) {
+                    if (value.noteName)
+                        $.atUserNameArray.push(value.nickName + "(" + value.noteName + ")");
+                    else
+                        $.atUserNameArray.push(value.nickName);
+                }
+            });
+            $.atUserNameArray = $.map($.atUserNameArray, function (value, i) {
+                return { 'name': value };
+            });
+        });
+    </script>
+}
+
+@if (string.IsNullOrEmpty(seletorId))
+{
+    <script type="text/javascript">
+        $(function () {            
+            $("@(textareaId)").atWho("@@", {
+                tpl: "<li id='${id}' data-value='${name}'>${name}</li>",
+                'data': $.atUserNameArray
+            });
+        });
+    </script>   
+}
+else
+{ 
+    <div id="atUserView-@randomNum" class="tn-at-view tnc-mode-windows tn-widget tn-bubble tn-bubble-arrow-top">
+        <div class="tn-bubble-arrow">
+            <b class="tn-arrow-b1 tn-border-gray"></b><b class="tn-arrow-b2 tn-widget-bubble"></b>
+        </div>
+        <div class="tn-bubble-content tn-widget-content">
+            <div class="tnc-mode-content">
+                <div class="tnc-mode-icon">
+                    <a id="close-@randomNum" class="tn-icon tn-smallicon-cross">关闭</a>
+                </div>
+                <div class="tn-form tn-form-single">
+                    <input id="searchUser-@randomNum" class="tn-textbox tn-border-gray" />
+                </div>
+                <ul id='userList-@randomNum' class="tn-border-gray tn-border-top">
+                </ul>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        $(function () {
+            $("#atUserView-@randomNum").appendTo(document.body);
+            $("@(seletorId)").atUser($.atUserNameArray, "@(textareaId)", "@(randomNum)");           
+        });
+    </script>
+}
